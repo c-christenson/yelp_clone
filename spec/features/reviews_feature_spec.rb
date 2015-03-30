@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'reviewing' do 
   before {Restaurant.create name: 'KFC'}
 
-  scenario 'allows users to leavea  review using a form' do 
+  scenario 'allows users to leave a  review using a form' do 
     visit '/restaurants'
     click_link 'Review KFC'
     fill_in "Thoughts", with: "so so"
@@ -15,7 +15,15 @@ feature 'reviewing' do
   end
 
 
-
+  scenario 'deletes all reviews when a restaurant is deleted' do 
+    visit '/restaurants'
+    click_link 'Review KFC'
+    fill_in "Thoughts", with: "so so"
+    select '3', from: 'Rating'
+    click_button 'Leave Review'
+    click_link 'Delete KFC'
+    expect(page).to have_content('Restaurant deleted successfully')
+  end
 
 
 
